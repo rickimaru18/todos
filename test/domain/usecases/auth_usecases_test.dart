@@ -24,7 +24,7 @@ void main() {
   group('[Login]', () {
     test('Successful', () async {
       when(authRepository.login(any, any)).thenAnswer(
-        (_) async => const Right(user),
+        (_) async => const Right<Failure, User>(user),
       );
 
       final Either<Failure, User> res = await authUsecases.login(
@@ -39,7 +39,7 @@ void main() {
 
     test('Failure', () async {
       when(authRepository.login(any, any)).thenAnswer(
-        (_) async => const Left(Failure()),
+        (_) async => const Left<Failure, User>(Failure()),
       );
 
       final Either<Failure, User> res = await authRepository.login(
@@ -59,7 +59,7 @@ void main() {
       );
 
       expect(res.isLeft(), true);
-      expect(res, const Left(InvalidUsernameFailure()));
+      expect(res, const Left<Failure, User>(InvalidUsernameFailure()));
       verifyNever(authRepository.login('', password));
       verifyNoMoreInteractions(authRepository);
     });
@@ -71,7 +71,7 @@ void main() {
       );
 
       expect(res.isLeft(), true);
-      expect(res, const Left(InvalidPasswordFailure()));
+      expect(res, const Left<Failure, User>(InvalidPasswordFailure()));
       verifyNever(authRepository.login(username, ''));
       verifyNoMoreInteractions(authRepository);
     });
@@ -80,7 +80,7 @@ void main() {
   group('[Signup]', () {
     test('Successful', () async {
       when(authRepository.signup(any, any)).thenAnswer(
-        (_) async => const Right(user),
+        (_) async => const Right<Failure, User>(user),
       );
 
       final Either<Failure, User> res = await authUsecases.signup(
@@ -95,7 +95,7 @@ void main() {
 
     test('Failure', () async {
       when(authRepository.signup(any, any)).thenAnswer(
-        (_) async => const Left(Failure()),
+        (_) async => const Left<Failure, User>(Failure()),
       );
 
       final Either<Failure, User> res = await authRepository.signup(
@@ -115,7 +115,7 @@ void main() {
       );
 
       expect(res.isLeft(), true);
-      expect(res, const Left(InvalidUsernameFailure()));
+      expect(res, const Left<Failure, User>(InvalidUsernameFailure()));
       verifyNever(authRepository.signup('', password));
       verifyNoMoreInteractions(authRepository);
     });
@@ -127,7 +127,7 @@ void main() {
       );
 
       expect(res.isLeft(), true);
-      expect(res, const Left(InvalidPasswordFailure()));
+      expect(res, const Left<Failure, User>(InvalidPasswordFailure()));
       verifyNever(authRepository.signup(username, ''));
       verifyNoMoreInteractions(authRepository);
     });

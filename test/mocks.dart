@@ -7,7 +7,7 @@ import 'package:todos/src/domain/usecases/usecases.dart';
 
 export 'mocks.mocks.dart';
 
-@GenerateMocks([
+@GenerateMocks(<Type>[
   AuthUsecases,
   UserUsecases,
   TodoUsecases,

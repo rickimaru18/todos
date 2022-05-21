@@ -1,11 +1,12 @@
-import 'package:todos/core/errors/auth_failures.dart';
-import 'package:todos/core/settings/configs.dart';
-import 'package:todos/src/data/datasources/local/user_local_source.dart';
-import 'package:todos/src/data/models/user_model.dart';
-import 'package:todos/src/domain/entities/user.dart';
-import 'package:todos/core/errors/failure.dart';
 import 'package:dartz/dartz.dart';
-import 'package:todos/src/domain/repositories/auth_repository.dart';
+
+import '../../../core/errors/auth_failures.dart';
+import '../../../core/errors/failure.dart';
+import '../../../core/settings/configs.dart';
+import '../../domain/entities/user.dart';
+import '../../domain/repositories/auth_repository.dart';
+import '../datasources/local/user_local_source.dart';
+import '../models/user_model.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({
@@ -20,9 +21,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
     try {
       if (await _userLocalSource.userCount() == Configs.maxUsers) {
-        res = const Left(MaxUsersFailure());
+        res = const Left<Failure, User>(MaxUsersFailure());
       } else if (await _userLocalSource.hasUser(username)) {
-        res = const Left(UsernameTakenFailure());
+        res = const Left<Failure, User>(UsernameTakenFailure());
       } else {
         final UserSignupModel signupModel = await _userLocalSource.addUser(
           username,
@@ -30,10 +31,14 @@ class AuthRepositoryImpl implements AuthRepository {
         );
         await _userLocalSource.loginUser(username);
 
-        res = Right(User(id: signupModel.id, username: username));
+        res = Right<Failure, User>(
+          User(id: signupModel.id, username: username),
+        );
       }
     } catch (e) {
-      res = const Left(Failure('Sign up failed. Please try again.'));
+      res = const Left<Failure, User>(
+        Failure('Sign up failed. Please try again.'),
+      );
     }
 
     return res;
@@ -50,15 +55,19 @@ class AuthRepositoryImpl implements AuthRepository {
 
         if (signupModel != null) {
           await _userLocalSource.loginUser(username);
-          res = Right(User(id: signupModel.id, username: username));
+          res = Right<Failure, User>(
+            User(id: signupModel.id, username: username),
+          );
         } else {
-          res = const Left(IncorrectPasswordFailure());
+          res = const Left<Failure, User>(IncorrectPasswordFailure());
         }
       } else {
-        res = const Left(UsernameNotFoundFailure());
+        res = const Left<Failure, User>(UsernameNotFoundFailure());
       }
     } catch (e) {
-      res = const Left(Failure('Login failed. Please try again.'));
+      res = const Left<Failure, User>(
+        Failure('Login failed. Please try again.'),
+      );
     }
 
     return res;

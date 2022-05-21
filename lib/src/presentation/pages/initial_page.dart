@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todos/src/domain/entities/entities.dart';
-import 'package:todos/src/presentation/pages/pages.dart';
-import 'package:todos/src/presentation/providers/providers.dart';
-import 'package:todos/src/presentation/widgets/widgets.dart';
+
+import '../../domain/entities/entities.dart';
+import '../providers/providers.dart';
+import '../widgets/widgets.dart';
+import 'pages.dart';
 
 class InitialPage extends StatelessWidget {
   const InitialPage({

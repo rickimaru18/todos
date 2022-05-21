@@ -6,6 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:todos/core/errors/auth_failures.dart';
+import 'package:todos/core/errors/failure.dart';
 import 'package:todos/src/domain/entities/entities.dart';
 import 'package:todos/src/presentation/pages/pages.dart';
 import 'package:todos/src/presentation/providers/providers.dart';
@@ -29,12 +30,12 @@ void main() {
 
     loginPage = MultiProvider(
       providers: <SingleChildWidget>[
-        ChangeNotifierProvider(
+        ChangeNotifierProvider<UserProvider>(
           create: (_) => UserProvider(
             userUsecases: userUsecases,
           ),
         ),
-        ChangeNotifierProvider(
+        ChangeNotifierProvider<LoginViewModel>(
           create: (_) => LoginViewModel(authUsecases: authUsecases),
         ),
       ],
@@ -42,7 +43,7 @@ void main() {
     );
 
     when(userUsecases.getLoggedInUser()).thenAnswer(
-      (_) async => const Right(null),
+      (_) async => const Right<Failure, User?>(null),
     );
   });
 
@@ -112,9 +113,11 @@ void main() {
 
       await tester.runAsync(() async {
         when(authUsecases.login(any, any)).thenAnswer(
-          (_) => Future.delayed(
+          (_) => Future<Either<Failure, User>>.delayed(
             const Duration(seconds: 5),
-            () => const Right(User(id: 0, username: 'username')),
+            () => const Right<Failure, User>(
+              User(id: 0, username: 'username'),
+            ),
           ),
         );
 
@@ -174,9 +177,9 @@ void main() {
 
       await tester.runAsync(() async {
         when(authUsecases.signup(any, any)).thenAnswer(
-          (_) => Future.delayed(
+          (_) => Future<Either<Failure, User>>.delayed(
             const Duration(seconds: 5),
-            () => const Right(User(id: 0, username: 'username')),
+            () => const Right<Failure, User>(User(id: 0, username: 'username')),
           ),
         );
 
@@ -329,7 +332,9 @@ void main() {
       );
 
       when(authUsecases.login(any, any)).thenAnswer(
-        (_) async => const Right(User(id: 0, username: 'username')),
+        (_) async => const Right<Failure, User>(
+          User(id: 0, username: 'username'),
+        ),
       );
 
       await enterFieldsAndAuthenticate(
@@ -355,7 +360,9 @@ void main() {
       );
 
       when(authUsecases.signup(any, any)).thenAnswer(
-        (_) async => const Right(User(id: 0, username: 'username')),
+        (_) async => const Right<Failure, User>(
+          User(id: 0, username: 'username'),
+        ),
       );
 
       await enterFieldsAndAuthenticate(
@@ -382,7 +389,7 @@ void main() {
       );
 
       when(authUsecases.login(any, any)).thenAnswer(
-        (_) async => const Left(InvalidUsernameFailure()),
+        (_) async => const Left<Failure, User>(InvalidUsernameFailure()),
       );
 
       await enterFieldsAndAuthenticate(
@@ -413,7 +420,7 @@ void main() {
       );
 
       when(authUsecases.signup(any, any)).thenAnswer(
-        (_) async => const Left(InvalidUsernameFailure()),
+        (_) async => const Left<Failure, User>(InvalidUsernameFailure()),
       );
 
       await enterFieldsAndAuthenticate(

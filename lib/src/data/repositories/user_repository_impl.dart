@@ -1,9 +1,10 @@
-import 'package:todos/src/data/datasources/local/user_local_source.dart';
-import 'package:todos/src/data/models/user_model.dart';
-import 'package:todos/src/domain/entities/user.dart';
-import 'package:todos/core/errors/failure.dart';
 import 'package:dartz/dartz.dart';
-import 'package:todos/src/domain/repositories/user_repository.dart';
+
+import '../../../core/errors/failure.dart';
+import '../../domain/entities/user.dart';
+import '../../domain/repositories/user_repository.dart';
+import '../datasources/local/user_local_source.dart';
+import '../models/user_model.dart';
 
 class UserRepositoryImpl implements UserRepository {
   UserRepositoryImpl({
@@ -23,10 +24,14 @@ class UserRepositoryImpl implements UserRepository {
       final UserSignupModel? userSignupModel = loggedInUser?.values.first;
 
       res = loggedInUser != null
-          ? Right(User(id: userSignupModel!.id, username: username!))
-          : const Right(null);
+          ? Right<Failure, User?>(
+              User(id: userSignupModel!.id, username: username!),
+            )
+          : const Right<Failure, User?>(null);
     } catch (e) {
-      res = const Left(Failure('Getting logged-in user failed.'));
+      res = const Left<Failure, User?>(
+        Failure('Getting logged-in user failed.'),
+      );
     }
 
     return res;
@@ -37,9 +42,11 @@ class UserRepositoryImpl implements UserRepository {
     Either<Failure, bool> res;
 
     try {
-      res = Right(await _userLocalSource.logoutUser());
+      res = Right<Failure, bool>(await _userLocalSource.logoutUser());
     } catch (e) {
-      res = const Left(Failure('Logout failed. Please try again.'));
+      res = const Left<Failure, bool>(
+        Failure('Logout failed. Please try again.'),
+      );
     }
 
     return res;

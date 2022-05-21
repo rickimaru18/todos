@@ -73,7 +73,7 @@ void main() {
 
   test('Listen TODOs successfully from local source', () async {
     when(todoLocalSource.listenToChanges(any))
-        .thenAnswer((_) async => const Stream.empty());
+        .thenAnswer((_) async => const Stream<List<Todo>>.empty());
 
     final Either<Failure, Stream<List<Todo>>> res =
         await todoRepository.listenToChanges(userId);
@@ -85,7 +85,7 @@ void main() {
 
   test('Listen TODOs successfully from local source', () async {
     when(todoLocalSource.listenToChanges(any))
-        .thenAnswer((_) async => const Stream.empty());
+        .thenAnswer((_) async => const Stream<List<Todo>>.empty());
 
     final Either<Failure, Stream<List<Todo>>> res =
         await todoRepository.listenToChanges(userId);
@@ -117,7 +117,7 @@ void main() {
         await todoRepository.toggleTodoComplete(todo);
 
     expect(res.isRight(), true);
-    expect(res, Right(completedTodo));
+    expect(res, Right<Failure, Todo>(completedTodo));
     verify(todoLocalSource.toggleTodoComplete(todo));
     verifyNoMoreInteractions(todoLocalSource);
   });
@@ -131,7 +131,7 @@ void main() {
         await todoRepository.toggleTodoComplete(todo);
 
     expect(res.isLeft(), true);
-    expect(res, const Left(CompleteTodoFailure()));
+    expect(res, const Left<Failure, Todo>(CompleteTodoFailure()));
     verify(todoLocalSource.toggleTodoComplete(todo));
     verifyNoMoreInteractions(todoLocalSource);
   });
@@ -152,7 +152,7 @@ void main() {
         await todoRepository.toggleTodoComplete(todo);
 
     expect(res.isRight(), true);
-    expect(res, Right(notCompletedTodo));
+    expect(res, Right<Failure, Todo>(notCompletedTodo));
     verify(todoLocalSource.toggleTodoComplete(todo));
     verifyNoMoreInteractions(todoLocalSource);
   });
@@ -171,7 +171,7 @@ void main() {
         await todoRepository.toggleTodoComplete(todo);
 
     expect(res.isLeft(), true);
-    expect(res, const Left(NotCompleteTodoFailure()));
+    expect(res, const Left<Failure, Todo>(NotCompleteTodoFailure()));
     verify(todoLocalSource.toggleTodoComplete(todo));
     verifyNoMoreInteractions(todoLocalSource);
   });

@@ -51,7 +51,7 @@ void main() {
       );
 
       expect(res.isLeft(), true);
-      expect(res, const Left(UsernameNotFoundFailure()));
+      expect(res, const Left<Failure, User>(UsernameNotFoundFailure()));
       verify(userLocalSource.hasUser(username));
       verifyNoMoreInteractions(userLocalSource);
     });
@@ -66,7 +66,7 @@ void main() {
       );
 
       expect(res.isLeft(), true);
-      expect(res, const Left(IncorrectPasswordFailure()));
+      expect(res, const Left<Failure, User>(IncorrectPasswordFailure()));
       verify(userLocalSource.hasUser(username));
       verify(userLocalSource.getUser(username, password));
       verifyNoMoreInteractions(userLocalSource);
@@ -120,7 +120,7 @@ void main() {
       );
 
       expect(res.isLeft(), true);
-      expect(res, const Left(MaxUsersFailure()));
+      expect(res, const Left<Failure, User>(MaxUsersFailure()));
       verify(userLocalSource.userCount());
       verifyNoMoreInteractions(userLocalSource);
     });
@@ -135,7 +135,7 @@ void main() {
       );
 
       expect(res.isLeft(), true);
-      expect(res, const Left(UsernameTakenFailure()));
+      expect(res, const Left<Failure, User>(UsernameTakenFailure()));
       verify(userLocalSource.userCount());
       verify(userLocalSource.hasUser(username));
       verifyNoMoreInteractions(userLocalSource);

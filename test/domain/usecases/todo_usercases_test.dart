@@ -21,7 +21,7 @@ void main() {
   group('[TODO fetch]', () {
     test('Successful', () async {
       when(todoRepository.getTodos(any)).thenAnswer(
-        (_) async => const Right(<Todo>[]),
+        (_) async => const Right<Failure, List<Todo>>(<Todo>[]),
       );
 
       final Either<Failure, List<Todo>> res =
@@ -42,7 +42,7 @@ void main() {
 
     test('Failure', () async {
       when(todoRepository.getTodos(any)).thenAnswer(
-        (_) async => const Left(Failure()),
+        (_) async => const Left<Failure, List<Todo>>(Failure()),
       );
 
       final Either<Failure, List<Todo>> res =
@@ -59,7 +59,7 @@ void main() {
       final Todo todo = Todo(userId: 0, id: 1, title: 'title');
 
       when(todoRepository.toggleTodoComplete(any)).thenAnswer(
-        (_) async => Right(Todo.complete(todo)),
+        (_) async => Right<Failure, Todo>(Todo.complete(todo)),
       );
 
       final Either<Failure, Todo> res =
@@ -73,7 +73,7 @@ void main() {
 
     test('Failure', () async {
       when(todoRepository.toggleTodoComplete(any)).thenAnswer(
-        (_) async => const Left(Failure()),
+        (_) async => const Left<Failure, Todo>(Failure()),
       );
 
       final Todo todo = Todo(userId: 0, id: 1, title: 'title');
@@ -96,7 +96,7 @@ void main() {
       );
 
       when(todoRepository.toggleTodoComplete(any)).thenAnswer(
-        (_) async => Right(Todo.notComplete(todo)),
+        (_) async => Right<Failure, Todo>(Todo.notComplete(todo)),
       );
 
       final Either<Failure, Todo> res =
@@ -110,7 +110,7 @@ void main() {
 
     test('Failure', () async {
       when(todoRepository.toggleTodoComplete(any)).thenAnswer(
-        (_) async => const Left(Failure()),
+        (_) async => const Left<Failure, Todo>(Failure()),
       );
 
       final Todo todo = Todo(

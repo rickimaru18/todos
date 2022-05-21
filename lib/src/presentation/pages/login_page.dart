@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:todos/core/settings/configs.dart';
-import 'package:todos/src/domain/entities/user.dart';
-import 'package:todos/src/presentation/pages/pages.dart';
-import 'package:todos/src/presentation/providers/providers.dart';
-import 'package:todos/src/presentation/viewmodels/login_viewmodel.dart';
-import 'package:todos/src/presentation/widgets/widgets.dart';
+
+import '../../../core/settings/configs.dart';
+import '../../domain/entities/user.dart';
+import '../providers/providers.dart';
+import '../viewmodels/login_viewmodel.dart';
+import '../widgets/widgets.dart';
+import 'pages.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({
@@ -17,7 +18,7 @@ class LoginPage extends StatefulWidget {
   static const String routeName = '/login';
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {

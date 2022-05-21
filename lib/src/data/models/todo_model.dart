@@ -1,6 +1,8 @@
 import 'package:hive/hive.dart';
+// ignore: depend_on_referenced_packages
 import 'package:json_annotation/json_annotation.dart';
-import 'package:todos/src/domain/entities/todo.dart';
+
+import '../../domain/entities/todo.dart';
 
 part 'todo_model.g.dart';
 

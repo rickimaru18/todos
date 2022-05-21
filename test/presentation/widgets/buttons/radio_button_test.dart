@@ -6,7 +6,7 @@ import '../../build_widget.dart';
 
 void main() {
   testWidgets('Check all components', (WidgetTester tester) async {
-    final RadioButton radioButton = RadioButton<bool?>(
+    final RadioButton<bool?> radioButton = RadioButton<bool?>(
       onChanged: (bool? value) {
         // Do nothing.
       },
@@ -35,7 +35,7 @@ void main() {
   });
 
   testWidgets('Check with different type', (WidgetTester tester) async {
-    final RadioButton radioButton = RadioButton<int>(
+    final RadioButton<int> radioButton = RadioButton<int>(
       onChanged: (int? value) {
         // Do nothing.
       },
@@ -75,7 +75,7 @@ void main() {
   testWidgets('Event check for "Radio" widget', (WidgetTester tester) async {
     int groupValue = 100;
 
-    final RadioButton radioButton = RadioButton<int>(
+    final RadioButton<int> radioButton = RadioButton<int>(
       onChanged: (int? value) => groupValue = value!,
       groupValue: groupValue,
       value: 0,
@@ -91,7 +91,7 @@ void main() {
   testWidgets('Event check for "Text" widget', (WidgetTester tester) async {
     int groupValue = 100;
 
-    final RadioButton radioButton = RadioButton<int>(
+    final RadioButton<int> radioButton = RadioButton<int>(
       onChanged: (int? value) => groupValue = value!,
       groupValue: groupValue,
       value: 0,

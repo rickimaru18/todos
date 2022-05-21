@@ -22,7 +22,6 @@ class Todo extends HiveObject {
         userId: todo.userId,
         id: todo.id,
         title: todo.title,
-        completed: false,
       );
 
   @HiveField(0)

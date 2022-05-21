@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:todos/core/errors/failure.dart';
-import 'package:todos/src/data/repositories/auth_repository_impl.dart';
-import 'package:todos/src/domain/entities/user.dart';
-import 'package:todos/src/domain/usecases/auth_usecases.dart';
-import 'package:todos/src/presentation/viewmodels/viewmodel.dart';
+
+import '../../../core/errors/failure.dart';
+import '../../data/repositories/auth_repository_impl.dart';
+import '../../domain/entities/user.dart';
+import '../../domain/usecases/auth_usecases.dart';
+import 'viewmodel.dart';
 
 class LoginViewModel extends Viewmodel {
   LoginViewModel({

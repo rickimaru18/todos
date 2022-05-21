@@ -1,6 +1,7 @@
-import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
-import 'package:todos/src/data/models/todo_model.dart';
+import 'package:retrofit/retrofit.dart';
+
+import '../../models/todo_model.dart';
 
 part 'todo_remote_source.g.dart';
 
@@ -11,6 +12,6 @@ abstract class TodoRemoteSource {
     String baseUrl,
   }) = _TodoRemoteSource;
 
-  @GET("/todos")
+  @GET('/todos')
   Future<List<TodoModel>> getTodos();
 }

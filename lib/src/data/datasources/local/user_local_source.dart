@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:hive/hive.dart';
-import 'package:todos/src/data/datasources/local/local_source.dart';
-import 'package:todos/src/data/models/user_model.dart';
+
+import '../../models/user_model.dart';
+import 'local_source.dart';
 
 class UserLocalSource extends LocalSource {
   factory UserLocalSource() => _instance;

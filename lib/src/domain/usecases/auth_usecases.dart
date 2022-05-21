@@ -1,8 +1,9 @@
 import 'package:dartz/dartz.dart';
-import 'package:todos/core/errors/auth_failures.dart';
-import 'package:todos/core/errors/failure.dart';
-import 'package:todos/src/domain/entities/user.dart';
-import 'package:todos/src/domain/repositories/auth_repository.dart';
+
+import '../../../core/errors/auth_failures.dart';
+import '../../../core/errors/failure.dart';
+import '../entities/user.dart';
+import '../repositories/auth_repository.dart';
 
 class AuthUsecases {
   const AuthUsecases({
@@ -14,9 +15,9 @@ class AuthUsecases {
   /// Register user.
   Future<Either<Failure, User>> signup(String username, String password) async {
     if (username.isEmpty) {
-      return const Left(InvalidUsernameFailure());
+      return const Left<Failure, User>(InvalidUsernameFailure());
     } else if (password.isEmpty) {
-      return const Left(InvalidPasswordFailure());
+      return const Left<Failure, User>(InvalidPasswordFailure());
     }
 
     return _authRepository.signup(username, password);
@@ -25,9 +26,9 @@ class AuthUsecases {
   /// Login user.
   Future<Either<Failure, User>> login(String username, String password) async {
     if (username.isEmpty) {
-      return const Left(InvalidUsernameFailure());
+      return const Left<Failure, User>(InvalidUsernameFailure());
     } else if (password.isEmpty) {
-      return const Left(InvalidPasswordFailure());
+      return const Left<Failure, User>(InvalidPasswordFailure());
     }
 
     return _authRepository.login(username, password);

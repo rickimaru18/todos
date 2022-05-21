@@ -20,26 +20,26 @@ void main() {
 
   test('Already logged-in check', () async {
     when(userRepository.getLoggedInUser()).thenAnswer(
-      (_) async => const Right(user),
+      (_) async => const Right<Failure, User?>(user),
     );
 
     final Either<Failure, User?> res = await userUsecases.getLoggedInUser();
 
     expect(res.isRight(), true);
-    expect(res, const Right(user));
+    expect(res, const Right<Failure, User?>(user));
     verify(userRepository.getLoggedInUser());
     verifyNoMoreInteractions(userRepository);
   });
 
   test('Not logged-in check', () async {
     when(userRepository.getLoggedInUser()).thenAnswer(
-      (_) async => const Right(null),
+      (_) async => const Right<Failure, User?>(null),
     );
 
     final Either<Failure, User?> res = await userUsecases.getLoggedInUser();
 
     expect(res.isRight(), true);
-    expect(res, const Right(null));
+    expect(res, const Right<Failure, User?>(null));
     verify(userRepository.getLoggedInUser());
     verifyNoMoreInteractions(userRepository);
   });

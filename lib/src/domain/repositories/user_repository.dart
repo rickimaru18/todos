@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:todos/core/errors/failure.dart';
-import 'package:todos/src/domain/entities/user.dart';
+
+import '../../../core/errors/failure.dart';
+import '../entities/user.dart';
 
 abstract class UserRepository {
   /// Get logged-in user.

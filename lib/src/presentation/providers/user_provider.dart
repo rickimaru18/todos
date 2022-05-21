@@ -1,10 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
-import 'package:todos/core/errors/failure.dart';
-import 'package:todos/src/data/repositories/user_repository_impl.dart';
-import 'package:todos/src/domain/entities/entities.dart';
-import 'package:todos/src/domain/usecases/user_usecases.dart';
-import 'package:todos/src/presentation/viewmodels/viewmodel.dart';
+
+import '../../../core/errors/failure.dart';
+import '../../data/repositories/user_repository_impl.dart';
+import '../../domain/entities/entities.dart';
+import '../../domain/usecases/user_usecases.dart';
+import '../viewmodels/viewmodel.dart';
 
 class UserProvider extends Viewmodel {
   UserProvider({

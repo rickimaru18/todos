@@ -1,4 +1,4 @@
-import 'package:todos/core/errors/failure.dart';
+import 'failure.dart';
 
 class InvalidUsernameFailure extends Failure {
   const InvalidUsernameFailure([super.error = 'Invalid username']);

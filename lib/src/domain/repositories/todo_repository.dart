@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:todos/core/errors/failure.dart';
-import 'package:todos/src/domain/entities/todo.dart';
+
+import '../../../core/errors/failure.dart';
+import '../entities/todo.dart';
 
 abstract class TodoRepository {
   /// Get TODOs based from [userId].

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todos/src/presentation/pages/pages.dart';
-import 'package:todos/src/presentation/providers/user_provider.dart';
-import 'package:todos/src/presentation/viewmodels/viewmodels.dart';
+
+import 'pages/pages.dart';
+import 'providers/user_provider.dart';
+import 'viewmodels/viewmodels.dart';
 
 bool _isPreviousRouteInitial = false;
 
@@ -16,14 +17,14 @@ RouteFactory router = (RouteSettings routeSettings) {
       break;
 
     case LoginPage.routeName:
-      page = ChangeNotifierProvider(
+      page = ChangeNotifierProvider<LoginViewModel>(
         create: (_) => LoginViewModel(),
         child: const LoginPage(),
       );
       break;
 
     case HomePage.routeName:
-      page = ChangeNotifierProvider(
+      page = ChangeNotifierProvider<HomeViewModel>(
         create: (BuildContext context) => HomeViewModel(
           userProvider: context.read<UserProvider>(),
         ),
@@ -38,7 +39,7 @@ RouteFactory router = (RouteSettings routeSettings) {
   if (_isPreviousRouteInitial && routeSettings.name != InitialPage.routeName) {
     _isPreviousRouteInitial = false;
 
-    return PageRouteBuilder(
+    return PageRouteBuilder<dynamic>(
       pageBuilder: (_, __, ___) => page,
       transitionsBuilder: (_, Animation<double> animation, __, Widget child) =>
           FadeTransition(

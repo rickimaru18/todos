@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:hive/hive.dart';
-import 'package:todos/src/data/datasources/local/local_source.dart';
-import 'package:todos/src/data/models/todo_model.dart';
-import 'package:todos/src/domain/entities/todo.dart';
+
+import '../../../domain/entities/todo.dart';
+import '../../models/todo_model.dart';
+import 'local_source.dart';
 
 class TodoLocalSource extends LocalSource {
   factory TodoLocalSource() => _instance;

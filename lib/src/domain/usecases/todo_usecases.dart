@@ -1,8 +1,9 @@
 import 'package:dartz/dartz.dart';
-import 'package:todos/core/errors/failure.dart';
-import 'package:todos/core/errors/user_failures.dart';
-import 'package:todos/src/domain/entities/todo.dart';
-import 'package:todos/src/domain/repositories/todo_repository.dart';
+
+import '../../../core/errors/failure.dart';
+import '../../../core/errors/user_failures.dart';
+import '../entities/todo.dart';
+import '../repositories/todo_repository.dart';
 
 class TodoUsecases {
   const TodoUsecases({
@@ -14,7 +15,7 @@ class TodoUsecases {
   /// Get TODOs.
   Future<Either<Failure, List<Todo>>> getTodos(int userId) async {
     if (userId < 0) {
-      return const Left(InvalidUserIdFailure());
+      return const Left<Failure, List<Todo>>(InvalidUserIdFailure());
     }
     return _todoRepository.getTodos(userId);
   }
@@ -24,7 +25,7 @@ class TodoUsecases {
     int userId,
   ) async {
     if (userId < 0) {
-      return const Left(InvalidUserIdFailure());
+      return const Left<Failure, Stream<List<Todo>>>(InvalidUserIdFailure());
     }
 
     return _todoRepository.listenToChanges(userId);

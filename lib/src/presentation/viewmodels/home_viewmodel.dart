@@ -2,12 +2,13 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:dartz/dartz.dart';
-import 'package:todos/core/errors/failure.dart';
-import 'package:todos/src/data/repositories/todo_repository_impl.dart';
-import 'package:todos/src/domain/entities/entities.dart';
-import 'package:todos/src/domain/usecases/usecases.dart';
-import 'package:todos/src/presentation/providers/providers.dart';
-import 'package:todos/src/presentation/viewmodels/viewmodel.dart';
+
+import '../../../core/errors/failure.dart';
+import '../../data/repositories/todo_repository_impl.dart';
+import '../../domain/entities/entities.dart';
+import '../../domain/usecases/usecases.dart';
+import '../providers/providers.dart';
+import 'viewmodel.dart';
 
 class HomeViewModel extends Viewmodel {
   HomeViewModel({
@@ -51,7 +52,7 @@ class HomeViewModel extends Viewmodel {
   UnmodifiableListView<Todo>? get todos {
     Iterable<Todo>? res;
 
-    if (_showCompletedTodos == true) {
+    if (_showCompletedTodos ?? false) {
       res = _todos?.where((Todo todo) => todo.completed);
     } else if (_showCompletedTodos == false) {
       res = _todos?.where((Todo todo) => !todo.completed);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<AppLocalizations> buildWidget(
   WidgetTester tester,
@@ -12,7 +12,7 @@ Future<AppLocalizations> buildWidget(
 
   await tester.pumpWidget(
     MaterialApp(
-      localizationsDelegates: const [
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -29,7 +29,7 @@ Future<AppLocalizations> buildWidget(
       onGenerateRoute: (RouteSettings routeSettings) {
         onNavigateTo?.call(routeSettings.name ?? '');
 
-        return MaterialPageRoute(
+        return MaterialPageRoute<dynamic>(
           builder: (_) => const Scaffold(),
         );
       },

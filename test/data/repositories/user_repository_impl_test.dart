@@ -40,7 +40,7 @@ void main() {
       final Either<Failure, User?> res = await userRepository.getLoggedInUser();
 
       expect(res.isRight(), true);
-      expect(res, const Right(null));
+      expect(res, const Right<Failure, User?>(null));
       verify(userLocalSource.getLoggedInUser());
       verifyNoMoreInteractions(userLocalSource);
     });
@@ -63,7 +63,7 @@ void main() {
       final Either<Failure, bool> res = await userRepository.logout();
 
       expect(res.isRight(), true);
-      expect(res, const Right(true));
+      expect(res, const Right<Failure, bool>(true));
       verify(userLocalSource.logoutUser());
       verifyNoMoreInteractions(userLocalSource);
     });
@@ -74,7 +74,7 @@ void main() {
       final Either<Failure, bool> res = await userRepository.logout();
 
       expect(res.isRight(), true);
-      expect(res, const Right(false));
+      expect(res, const Right<Failure, bool>(false));
       verify(userLocalSource.logoutUser());
       verifyNoMoreInteractions(userLocalSource);
     });

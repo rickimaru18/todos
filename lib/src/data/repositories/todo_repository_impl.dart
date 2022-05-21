@@ -1,11 +1,12 @@
-import 'package:dio/dio.dart';
-import 'package:todos/core/errors/todo_failures.dart';
-import 'package:todos/src/data/datasources/local/todo_local_source.dart';
-import 'package:todos/src/data/datasources/remote/todo_remote_source.dart';
-import 'package:todos/src/domain/entities/todo.dart';
-import 'package:todos/core/errors/failure.dart';
 import 'package:dartz/dartz.dart';
-import 'package:todos/src/domain/repositories/todo_repository.dart';
+import 'package:dio/dio.dart';
+
+import '../../../core/errors/failure.dart';
+import '../../../core/errors/todo_failures.dart';
+import '../../domain/entities/todo.dart';
+import '../../domain/repositories/todo_repository.dart';
+import '../datasources/local/todo_local_source.dart';
+import '../datasources/remote/todo_remote_source.dart';
 
 class TodoRepositoryImpl implements TodoRepository {
   TodoRepositoryImpl({
@@ -30,9 +31,11 @@ class TodoRepositoryImpl implements TodoRepository {
       }
 
       todos = (await _todoLocalSource.getTodos(userId))!;
-      res = Right(todos);
+      res = Right<Failure, List<Todo>>(todos);
     } catch (e) {
-      res = const Left(Failure('Getting TODOs failed. Please try again.'));
+      res = const Left<Failure, List<Todo>>(
+        Failure('Getting TODOs failed. Please try again.'),
+      );
     }
 
     return res;
@@ -48,10 +51,14 @@ class TodoRepositoryImpl implements TodoRepository {
       final Stream<List<Todo>>? todosStream =
           await _todoLocalSource.listenToChanges(userId);
       res = todosStream != null
-          ? Right(todosStream)
-          : Left(Failure("Can't find TODOs with $userId user ID"));
+          ? Right<Failure, Stream<List<Todo>>>(todosStream)
+          : Left<Failure, Stream<List<Todo>>>(
+              Failure("Can't find TODOs with $userId user ID"),
+            );
     } catch (e) {
-      res = const Left(Failure('Listening to TODOs failed. Please try again.'));
+      res = const Left<Failure, Stream<List<Todo>>>(
+        Failure('Listening to TODOs failed. Please try again.'),
+      );
     }
 
     return res;
@@ -65,14 +72,16 @@ class TodoRepositoryImpl implements TodoRepository {
       final Todo? newTodo = await _todoLocalSource.toggleTodoComplete(todo);
 
       if (newTodo != null) {
-        res = Right(newTodo);
+        res = Right<Failure, Todo>(newTodo);
       } else if (!todo.completed) {
-        res = const Left(CompleteTodoFailure());
+        res = const Left<Failure, Todo>(CompleteTodoFailure());
       } else {
-        res = const Left(NotCompleteTodoFailure());
+        res = const Left<Failure, Todo>(NotCompleteTodoFailure());
       }
     } catch (e) {
-      res = const Left(Failure('Getting TODOs failed. Please try again.'));
+      res = const Left<Failure, Todo>(
+        Failure('Getting TODOs failed. Please try again.'),
+      );
     }
 
     return res;

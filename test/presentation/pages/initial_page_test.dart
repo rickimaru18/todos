@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
+import 'package:todos/core/errors/failure.dart';
 import 'package:todos/src/domain/entities/entities.dart';
 import 'package:todos/src/presentation/pages/pages.dart';
 import 'package:todos/src/presentation/providers/providers.dart';
@@ -17,7 +18,7 @@ void main() {
 
   setUp(() {
     userUsecases = MockUserUsecases();
-    initialPage = ChangeNotifierProvider(
+    initialPage = ChangeNotifierProvider<UserProvider>(
       create: (_) => UserProvider(
         userUsecases: userUsecases,
       ),
@@ -28,9 +29,9 @@ void main() {
   testWidgets('Check all components', (WidgetTester tester) async {
     await tester.runAsync(() async {
       when(userUsecases.getLoggedInUser()).thenAnswer(
-        (_) => Future.delayed(
+        (_) => Future<Either<Failure, User?>>.delayed(
           const Duration(seconds: 5),
-          () => const Right(null),
+          () => const Right<Failure, User?>(null),
         ),
       );
 
@@ -53,7 +54,9 @@ void main() {
     String? toRoute;
 
     when(userUsecases.getLoggedInUser()).thenAnswer(
-      (_) async => const Right(User(id: 0, username: 'username')),
+      (_) async => const Right<Failure, User?>(
+        User(id: 0, username: 'username'),
+      ),
     );
 
     await buildWidget(
@@ -73,7 +76,7 @@ void main() {
     String? toRoute;
 
     when(userUsecases.getLoggedInUser()).thenAnswer(
-      (_) async => const Right(null),
+      (_) async => const Right<Failure, User?>(null),
     );
 
     await buildWidget(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:todos/src/presentation/widgets/widgets.dart';
+
+import '../widgets.dart';
 
 class TodoFilters extends StatelessWidget {
   const TodoFilters({

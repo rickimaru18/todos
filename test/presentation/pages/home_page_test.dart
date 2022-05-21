@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:todos/core/errors/failure.dart';
 import 'package:todos/src/domain/entities/entities.dart';
 import 'package:todos/src/presentation/pages/pages.dart';
 import 'package:todos/src/presentation/providers/providers.dart';
@@ -39,12 +40,12 @@ void main() {
 
     homePage = MultiProvider(
       providers: <SingleChildWidget>[
-        ChangeNotifierProvider(
+        ChangeNotifierProvider<UserProvider>(
           create: (_) => UserProvider(
             userUsecases: userUsecases,
           )..user = user,
         ),
-        ChangeNotifierProvider(
+        ChangeNotifierProvider<HomeViewModel>(
           create: (BuildContext context) => HomeViewModel(
             userProvider: context.read<UserProvider>(),
             todoUsecases: todoUsecases,
@@ -55,17 +56,19 @@ void main() {
     );
 
     when(userUsecases.getLoggedInUser()).thenAnswer(
-      (_) async => const Right(user),
+      (_) async => const Right<Failure, User?>(user),
     );
     when(todoUsecases.listenToChanges(any)).thenAnswer(
-      (_) async => const Right(Stream.empty()),
+      (_) async => const Right<Failure, Stream<List<Todo>>>(
+        Stream<List<Todo>>.empty(),
+      ),
     );
   });
 
   group('[Basic UI checks]', () {
     testWidgets('Check all components', (WidgetTester tester) async {
       when(todoUsecases.getTodos(any)).thenAnswer(
-        (_) async => Right(todos),
+        (_) async => Right<Failure, List<Todo>>(todos),
       );
 
       final AppLocalizations appLocalizations = await buildWidget(
@@ -105,7 +108,10 @@ void main() {
     testWidgets('Check loading state', (WidgetTester tester) async {
       await tester.runAsync(() async {
         when(todoUsecases.getTodos(any)).thenAnswer(
-          (_) => Future.delayed(const Duration(seconds: 5), () => Right(todos)),
+          (_) => Future<Either<Failure, List<Todo>>>.delayed(
+            const Duration(seconds: 5),
+            () => Right<Failure, List<Todo>>(todos),
+          ),
         );
 
         final AppLocalizations appLocalizations = await buildWidget(
@@ -145,7 +151,7 @@ void main() {
 
     testWidgets('Check empty state', (WidgetTester tester) async {
       when(todoUsecases.getTodos(any)).thenAnswer(
-        (_) async => const Right(<Todo>[]),
+        (_) async => const Right<Failure, List<Todo>>(<Todo>[]),
       );
 
       final AppLocalizations appLocalizations = await buildWidget(
@@ -186,10 +192,10 @@ void main() {
   group('[Drawer checks]', () {
     setUp(() {
       when(todoUsecases.getTodos(any)).thenAnswer(
-        (_) async => const Right(<Todo>[]),
+        (_) async => const Right<Failure, List<Todo>>(<Todo>[]),
       );
       when(userUsecases.logout()).thenAnswer(
-        (_) async => const Right(true),
+        (_) async => const Right<Failure, bool>(true),
       );
     });
 
@@ -245,7 +251,7 @@ void main() {
   group('[Filter checks]', () {
     setUp(() {
       when(todoUsecases.getTodos(any)).thenAnswer(
-        (_) async => Right(todos),
+        (_) async => Right<Failure, List<Todo>>(todos),
       );
     });
 

@@ -3,18 +3,19 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:todos/src/domain/entities/todo.dart';
-import 'package:todos/src/presentation/pages/pages.dart';
-import 'package:todos/src/presentation/providers/providers.dart';
-import 'package:todos/src/presentation/viewmodels/home_viewmodel.dart';
-import 'package:todos/src/presentation/widgets/widgets.dart';
+
+import '../../domain/entities/todo.dart';
+import '../providers/providers.dart';
+import '../viewmodels/home_viewmodel.dart';
+import '../widgets/widgets.dart';
+import 'pages.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({
     super.key,
   });
 
-  static const routeName = '/home';
+  static const String routeName = '/home';
 
   /// Callback when logout icon is pressed.
   Future<void> _onLogout(BuildContext context) async {
@@ -171,7 +172,7 @@ class _Status extends StatelessWidget {
   Widget _buildStatus(BuildContext context) => Container(
         padding: EdgeInsets.only(
           top: 10,
-          bottom: MediaQuery.of(context).viewPadding.bottom,
+          bottom: MediaQuery.of(context).viewPadding.bottom + 10,
         ),
         color: Theme.of(context).primaryColor.withOpacity(0.5),
         child: Row(

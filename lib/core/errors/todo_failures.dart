@@ -1,4 +1,4 @@
-import 'package:todos/core/errors/failure.dart';
+import 'failure.dart';
 
 class CompleteTodoFailure extends Failure {
   const CompleteTodoFailure([super.error = 'Failed to complete TODO']);
