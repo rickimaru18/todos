@@ -1,0 +1,20 @@
+{
+  "appTitle": "TODOs",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+
+  "unknownPage": "Unknown page",
+
+  "username": "Username",
+  "password": "Password",
+  "login": "Login",
+  "logout": "Logout",
+  "noAccountYet": "No account yet?",
+  "signup": "Sign up",
+
+  "search": "Search",
+  "all": "All",
+  "completed": "Completed",
+  "todo": "Todo"
+}
