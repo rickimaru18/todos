@@ -27,7 +27,7 @@ analyzer:
     # treat missing returns as a warning (not a hint)
     missing_return: warning
     # allow having TODO comments in the code
-    todo: ignore
+    todo: warning
     # allow self-reference to deprecated members (we do this because otherwise we have
     # to annotate every member in every test, assert, etc, when we deprecate something)
     deprecated_member_use_from_same_package: ignore
